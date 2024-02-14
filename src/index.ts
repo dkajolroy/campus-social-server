@@ -3,31 +3,56 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
+import http from "http";
 import path from "path";
+import { Server } from "socket.io";
+import { AuthRoute } from "./routes/auth_route";
+import { PostRoute } from "./routes/post_route";
+import { errorHandler } from "./utils/handler";
+import { authUser } from "./utils/middleware";
 
 // config
 const app = express();
-app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 dotenv.config();
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        // for use cdn .json from any host
+        defaultSrc: ["'self'", "https: data:"],
+        // for use image/emoji from any host
+        "img-src": ["'self'", "https: data:"],
+      },
+    },
+  })
+);
+const PORT = process.env.PORT || 8080;
+const server = http.createServer(app);
 
 // Set static site
-const appRoot = path.resolve();
-app.use(express.static(path.join(appRoot, "client/dist")));
+const _appRoot = path.resolve();
+app.use(express.static(path.join(_appRoot, "client/dist")));
 
-// client public
+// Api routes public
+app.use("/api", AuthRoute);
+// Api routes private
+app.use("/api", authUser, PostRoute);
+
+// website public
 app.use("*", (req, res) => {
-  res.status(200).sendFile(appRoot + "/client/dist/index.html");
+  res.status(200).sendFile(path.join(_appRoot, "client/dist/index.html"));
 });
 
 // socket server
-
-// Error middleware
-app.use("", (req, res, next, err) => {});
+const io = new Server(server);
 // listen to
-app.listen(5000, () => {
-  console.log("Server: http://localhost:8080");
+server.listen(PORT, () => {
+  console.log(`Server⚡: http://localhost:${PORT}`);
 });
+
+// Error handler middleware
+app.use(errorHandler);

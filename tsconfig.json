@@ -1,9 +1,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES5",
     "lib": [
-      "es2017",
+      "ESNext",
       "esnext.asynciterable"
     ],
     "typeRoots": [
@@ -13,8 +13,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
@@ -23,11 +23,10 @@
     "noEmit": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
   },
   "include": [
     "src/**/*.ts",
-
   ],
   "exclude": [
     "node_modules",
