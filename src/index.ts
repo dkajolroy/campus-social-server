@@ -6,6 +6,8 @@ import helmet from "helmet";
 import http from "http";
 import path from "path";
 import { Server } from "socket.io";
+import dbConfig from "./config/dbConfig";
+import { envConfig } from "./config/environment";
 import { AuthRoute } from "./routes/auth_route";
 import { PostRoute } from "./routes/post_route";
 import { errorHandler } from "./utils/handler";
@@ -16,8 +18,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 dotenv.config();
+envConfig();
+dbConfig();
 app.use(
   helmet({
     contentSecurityPolicy: {

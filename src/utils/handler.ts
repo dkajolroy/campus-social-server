@@ -1,19 +1,23 @@
 import { NextFunction, Request, Response } from "express";
-import Jwt from "jsonwebtoken";
 
+// error handler
 export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  console.error(err);
-  res.status(500).send({ errors: [{ message: "Something went wrong" }] });
-}
-
-// generate token
-export function generateToken(userId: string) {
-  return Jwt.sign({ userId }, process.env.SECRETE_KEY, {
-    expiresIn: "30d",
-  });
+  try {
+    if (err.message.startsWith("E11000")) {
+      // duplicate unique data
+      return res.status(400).send({ message: "User already exist !" });
+    }
+    if (err.name === "ValidationError")
+      return res // mongoose validator min/max etc
+        .status(400)
+        .send({ message: "Please enter your valid details !" });
+    return res.status(400).send({ message: "Something want wrong !" });
+  } catch (error) {
+    res.status(500).send({ message: "Something went wrong" });
+  }
 }

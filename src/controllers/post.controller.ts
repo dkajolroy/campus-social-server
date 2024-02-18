@@ -7,6 +7,7 @@ export const addPost = async (
   next: NextFunction
 ) => {
   try {
+    res.status(200).send({ message: "OK" });
   } catch (error) {
     next(error);
   }
@@ -22,6 +23,7 @@ export const getPost = async (
     // recommended
     // reload to random
     // pagination
+    res.status(200).send({ message: "OK" });
   } catch (error) {
     next(error);
   }

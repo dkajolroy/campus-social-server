@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { forgetPassword, signIn, signUp } from "../controllers/auth.controller";
+import forgetAuth from "../controllers/auth.controller/forget.controller";
+import signInAuth from "../controllers/auth.controller/signIn.controller";
+import signupAuth from "../controllers/auth.controller/signup.controller";
+import verifyAuth from "../controllers/auth.controller/verify.controller";
 
 const router = Router();
 export const AuthRoute = router;
 
-router.post("/sign-up", signUp);
-router.post("/sign-in", signIn);
-router.post("/forget-password", forgetPassword);
+router.post("/auth/sign-up", signupAuth);
+router.post("/auth/sign-in", signInAuth);
+router.get("/auth/verify-email/:key", verifyAuth);
+router.post("/auth/forget-password", forgetAuth);

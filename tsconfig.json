@@ -23,10 +23,10 @@
     "noEmit": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    // "baseUrl": ".",
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*.ts", "src/template/forget.tsx",
   ],
   "exclude": [
     "node_modules",
