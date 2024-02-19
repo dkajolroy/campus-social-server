@@ -1,25 +1,25 @@
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
+import { serverConfig } from "../config/server_config";
+import { sendClientCookie } from "../utils/send_cookie";
 
-export const userAuth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const token = req.cookies.accessToken;
-  try {
-    const decode = Jwt.verify(token, process.env.SECRETE_KEY);
-    // set data to body
-    next();
-  } catch (error) {
-    if (!token) {
-      res
-        .send({ message: "You are not authenticate, please login !" })
-        .redirect("/auth/sign-in"); // Token not found
-    } else {
-      res
-        .send({ message: "Login expire or Wrong way to try ! please login" })
-        .redirect("/auth/sign-in"); // Expire or wrong token
+export function authUser(req: Request, res: Response, next: NextFunction) {
+  // Check cookie
+  const token = req.cookies[serverConfig.authCookieName]; // user token
+
+  if (token) {
+    try {
+      const decrypt = Jwt.verify(token, process.env.SECRETE_KEY) as {
+        user: string; // userId
+      };
+      req.body = decrypt.user; // req.body.user
+      next();
+    } catch (error) {
+      sendClientCookie(res, { value: false });
+      return res.send({ message: "Login expire please login agin !" }); // login expire or wrong token
     }
+  } else {
+    sendClientCookie(res, { value: false });
+    return res.send({ message: "You are not authenticate" });
   }
-};
+}

@@ -8,10 +8,10 @@ import path from "path";
 import { Server } from "socket.io";
 import dbConfig from "./config/dbConfig";
 import { envConfig } from "./config/environment";
+import { authUser } from "./middleware/auth";
 import { AuthRoute } from "./routes/auth_route";
 import { PostRoute } from "./routes/post_route";
 import { errorHandler } from "./utils/handler";
-import { authUser } from "./utils/middleware";
 
 // config
 const app = express();
