@@ -1,5 +1,6 @@
 export function envConfig() {
-  const { PORT, SECRETE_KEY, SENDGRID_API_KEY, DATABASE_URL } = process.env;
+  const { PORT, SECRETE_KEY, FRONTEND_URL, SENDGRID_API_KEY, DATABASE_URL } =
+    process.env;
   if (!PORT) {
     console.log("⚡Please set a PORT");
   }
@@ -14,5 +15,9 @@ export function envConfig() {
   if (!SENDGRID_API_KEY) {
     console.log("SENDGRID_API_KEY not set");
     throw new Error("Set SENDGRID_API_KEY into env");
+  }
+  if (!FRONTEND_URL) {
+    console.log("FRONTEND_URL not set");
+    throw new Error("Set FRONTEND_URL into env");
   }
 }

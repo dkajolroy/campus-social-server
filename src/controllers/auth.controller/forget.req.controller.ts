@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { sendMail } from "../../email/config_mail";
-import { welcomeMail } from "../../email/welcome";
+import { forgetPassMail } from "../../email/forget_password";
 import { userModel } from "../../models/user_model";
 import { generateToken } from "../../utils/generate";
 
 // For forget password
-export default async function forgetAuth(
+export default async function forgetReqAuth(
   req: Request,
   res: Response,
   next: NextFunction
@@ -30,17 +30,15 @@ export default async function forgetAuth(
     if (!user) return res.status(400).send({ message: "User not found !" });
 
     // generate token
-    const onetimeUrl = generateToken(user._id, "5m");
-    const verificationUrl = `https://${req.headers.host}/api/verify-email/${onetimeUrl}`;
+    const onetimeUrl = generateToken(user.email, "10m");
+    const verificationUrl = `https://${process.env.FRONTEND_URL}/auth/forget-pass/${onetimeUrl}`;
     // send mail
-    const html = welcomeMail({
-      name: `${user.firstName} ${user.lastName || ""}`,
-    });
+    const html = forgetPassMail(); // send link and otp
     sendMail({
       toEmail: input.email,
       html,
       subject: "Forget password",
-      text: "New account welcome message for you !",
+      text: "Forget password !",
     });
 
     // extract data

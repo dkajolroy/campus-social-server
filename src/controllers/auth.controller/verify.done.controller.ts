@@ -4,7 +4,7 @@ import { userModel } from "../../models/user_model";
 import { generateToken } from "../../utils/generate";
 
 // For verification email
-export default async function verifyAuth(
+export default async function verifyDoneAuth(
   req: Request,
   res: Response,
   next: NextFunction
