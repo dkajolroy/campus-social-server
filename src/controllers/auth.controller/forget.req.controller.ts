@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { sendMail } from "../../email/config_mail";
 import { forgetPassMail } from "../../email/forget_password";
 import { userModel } from "../../models/user_model";
-import { generateToken } from "../../utils/generate";
+import { generateOTP, generateToken } from "../../utils/generate";
 
 // For forget password
 export default async function forgetReqAuth(
@@ -19,7 +19,7 @@ export default async function forgetReqAuth(
         .send({ message: "Invalid forget password request !" });
 
     // find - check and update user
-    const otp = (Math.random() * 9000).toString().split(".")[0];
+    const otp = generateOTP();
     const user = await userModel.findOneAndUpdate(
       { email: input.email.trim().toLowerCase() },
       {
@@ -29,26 +29,24 @@ export default async function forgetReqAuth(
     );
     if (!user) return res.status(400).send({ message: "User not found !" });
 
-    // generate token
     const onetimeUrl = generateToken(user.email, "10m");
-    const verificationUrl = `https://${process.env.FRONTEND_URL}/auth/forget-pass/${onetimeUrl}`;
-    // send mail
-    const html = forgetPassMail(); // send link and otp
-    sendMail({
-      toEmail: input.email,
-      html,
-      subject: "Forget password",
-      text: "Forget password !",
+    const html = forgetPassMail({
+      name: `${user.firstName} ${user.lastName || ""}`,
+      otp,
+      token: onetimeUrl,
     });
-
-    // extract data
-    const { password, onetimeKey, ...other } = user._doc;
+    sendMail({
+      to: user.email,
+      subject: "Forget password",
+      text: "Your Forget mail hare",
+      html,
+    });
     const token = generateToken(user._id);
     // successfully login
     return res.status(200).send({
-      user: other,
       token,
-      message: "Forget account process !",
+      otp,
+      message: "Send OTP ! check your inbox !",
     });
   } catch (error) {
     next(error);

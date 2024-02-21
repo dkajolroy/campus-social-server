@@ -47,7 +47,7 @@ const _appRoot = path.resolve();
 app.use(express.static(path.join(_appRoot, "client/dist")));
 
 // Api routes public
-app.use("/api", AuthRoute);
+app.use("/api/auth", AuthRoute);
 // Api routes private
 app.use("/api", authUser, PostRoute);
 

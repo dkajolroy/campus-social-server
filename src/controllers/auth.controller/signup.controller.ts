@@ -47,7 +47,7 @@ export default async function signupAuth(
       name: `${input.firstName} ${input.lastName || ""}`,
     });
     sendMail({
-      toEmail: input.email.trim().toLowerCase(),
+      to: input.email.trim().toLowerCase(),
       html,
       subject: "Welcome to " + serverConfig.appName,
       text: "New account welcome message for you !",

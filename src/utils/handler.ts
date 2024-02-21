@@ -16,6 +16,10 @@ export function errorHandler(
       return res // mongoose validator min/max etc
         .status(400)
         .send({ message: "Please enter your valid details !" });
+    if (err.name === "TokenExpiredError")
+      return res // mongoose validator min/max etc
+        .status(400)
+        .send({ message: "Expired your time or login session !" });
     return res.status(400).send({ message: "Something want wrong !" });
   } catch (error) {
     res.status(500).send({ message: "Something went wrong" });
