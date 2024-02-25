@@ -6,5 +6,6 @@ import userPost from "../controllers/post.controller/user_post.controller";
 const router = Router();
 export const PostRoute = router;
 
-router.route("/posts").get(feedPost).post(addPost);
-router.get("/user/posts/:userId", userPost); // view profile posts me | user
+router.route("/create").post(addPost);
+router.route("/all").get(feedPost);
+router.get("/user/:userId", userPost); // view profile posts me | user

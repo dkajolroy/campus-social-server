@@ -7,6 +7,7 @@ export default function addPost(
   next: NextFunction
 ) {
   try {
+    console.log(req.body);
     //create new post
   } catch (error) {
     next(error);

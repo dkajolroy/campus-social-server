@@ -1,11 +1,6 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
 import { serverConfig } from "../config/server_config";
-interface SendProp {
-  toEmail: string;
-  html: string;
-  subject: string;
-  text: string;
-}
+
 export function sendMail(mailOption: SendMailOptions) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
