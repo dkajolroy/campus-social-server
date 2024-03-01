@@ -1,6 +1,6 @@
+import { User } from "@src/models/user_model";
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
-import { userModel } from "../../models/user_model";
 import { generateToken } from "../../utils/generate";
 
 // For verification email
@@ -19,7 +19,7 @@ export default async function verifyDoneAuth(
     const decode = Jwt.verify(key, process.env.SECRETE_KEY) as {
       userId: string;
     }; // solution res types
-    const user = await userModel.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       decode.userId,
       {
         $set: {

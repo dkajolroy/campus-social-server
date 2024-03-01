@@ -48,7 +48,7 @@ app.use(express.static(path.join(_appRoot, "client/dist")));
 
 // Api routes public
 app.use("/api/auth", AuthRoute);
-app.use("/api/post", PostRoute);
+app.use("/api/post", authUser, PostRoute);
 // Api routes private
 app.use("/api", authUser, PostRoute);
 

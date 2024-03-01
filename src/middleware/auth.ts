@@ -6,13 +6,12 @@ import { sendClientCookie } from "../utils/send_cookie";
 export function authUser(req: Request, res: Response, next: NextFunction) {
   // Check cookie
   const token = req.cookies[serverConfig.authCookieName]; // user token
-
   if (token) {
     try {
       const decrypt = Jwt.verify(token, process.env.SECRETE_KEY) as {
         user: string; // userId
       };
-      req.body = decrypt.user; // req.body.user
+      req.body.author = decrypt.user;
       next();
     } catch (error) {
       sendClientCookie(res, { value: false });
@@ -20,6 +19,6 @@ export function authUser(req: Request, res: Response, next: NextFunction) {
     }
   } else {
     sendClientCookie(res, { value: false });
-    return res.send({ message: "You are not authenticate" });
+    return res.status(400).send({ message: "You are not authenticate" });
   }
 }

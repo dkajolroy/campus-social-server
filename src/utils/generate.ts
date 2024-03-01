@@ -7,6 +7,11 @@ export function generateToken(user: any, expiresIn?: string) {
   return Jwt.sign({ user }, process.env.SECRETE_KEY, {
     expiresIn: expiresIn || serverConfig.cookieExpire,
   });
+} // generate token
+export function decodeToken(token: string, expiresIn?: string) {
+  return Jwt.verify(token, process.env.SECRETE_KEY) as {
+    user: string; // userId
+  };
 }
 
 // generate Username

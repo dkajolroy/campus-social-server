@@ -1,3 +1,4 @@
+import { UploadContent } from "@src/types/schema";
 import { Schema, model } from "mongoose";
 
 const userSchema = new Schema<IUser>(
@@ -20,9 +21,12 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
     avatar: {
-      type: "String",
-      default:
-        "https://res.cloudinary.com/kajolroy/image/upload/v1707939639/dummy/default-avatar-profile-icon-vector_rzhkkm.jpg",
+      public_id: { type: String, required: true },
+      secure_url: {
+        type: "String",
+        default:
+          "https://res.cloudinary.com/kajolroy/image/upload/v1707939639/dummy/default-avatar-profile-icon-vector_rzhkkm.jpg",
+      },
     },
     email: {
       type: "String",
@@ -64,13 +68,14 @@ const userSchema = new Schema<IUser>(
   { timestamps: true, versionKey: false }
 );
 
-export const userModel = model("users", userSchema);
+export const User = model("Users", userSchema);
 interface DocumentResult<T> {
   _doc: T;
 }
 interface IUser extends DocumentResult<IUser> {
   firstName: string;
   lastName?: string;
+  avatar: UploadContent;
   username: string;
   email: string;
   phone?: string;
@@ -78,7 +83,6 @@ interface IUser extends DocumentResult<IUser> {
   verifiedEmail: boolean;
   verifiedPhone: boolean;
   onetimeKey: number;
-  avatar: string;
   dateOfBirth?: Date;
   bio: string;
   relationShip: "Single" | "Married" | "In a Relationship";

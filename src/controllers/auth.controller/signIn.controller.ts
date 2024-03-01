@@ -1,6 +1,6 @@
+import { User } from "@src/models/user_model";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
-import { userModel } from "../../models/user_model";
 import { InputSignIn } from "../../types/input";
 import { generateToken } from "../../utils/generate";
 import { sendClientCookie, sendServerCookie } from "../../utils/send_cookie";
@@ -17,7 +17,7 @@ export default async function signInAuth(
     return res.status(400).send({ message: "Invalid form data !" });
   try {
     // find and validate user
-    const user = await userModel.findOne({
+    const user = await User.findOne({
       email: input.email.trim().toLowerCase(),
     });
     if (!user) return res.status(400).send({ message: "User not found !" });

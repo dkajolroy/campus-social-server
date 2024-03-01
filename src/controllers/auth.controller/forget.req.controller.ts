@@ -1,7 +1,7 @@
+import { User } from "@src/models/user_model";
 import { NextFunction, Request, Response } from "express";
 import { sendMail } from "../../email/config_mail";
 import { forgetPassMail } from "../../email/forget_password";
-import { userModel } from "../../models/user_model";
 import { generateOTP, generateToken } from "../../utils/generate";
 
 // For forget password
@@ -20,7 +20,7 @@ export default async function forgetReqAuth(
 
     // find - check and update user
     const otp = generateOTP();
-    const user = await userModel.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       { email: input.email.trim().toLowerCase() },
       {
         $set: { onetimeKey: otp },

@@ -1,10 +1,10 @@
+import { User } from "@src/models/user_model";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import validator from "validator";
 import { serverConfig } from "../../config/server_config";
 import { sendMail } from "../../email/config_mail";
 import { welcomeMail } from "../../email/welcome";
-import { userModel } from "../../models/user_model";
 import { InputSignUp } from "../../types/input";
 import { generateToken, generateUsername } from "../../utils/generate";
 import { sendClientCookie, sendServerCookie } from "../../utils/send_cookie";
@@ -34,7 +34,7 @@ export default async function signupAuth(
     const encrypt = bcrypt.hashSync(input.password.trim(), 10);
     const username = generateUsername(input.firstName, input.lastName);
     // create user
-    const user = await userModel.create({
+    const user = await User.create({
       firstName: input.firstName,
       lastName: input.lastName,
       password: encrypt,

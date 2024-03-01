@@ -1,7 +1,7 @@
+import { User } from "@src/models/user_model";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
-import { userModel } from "../../models/user_model";
 
 export default async function forgetSuccessAuth(
   req: Request,
@@ -24,7 +24,7 @@ export default async function forgetSuccessAuth(
       const decode = Jwt.verify(input.key, process.env.SECRETE_KEY) as {
         user: string;
       };
-      await userModel.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { email: decode.user },
         {
           $set: { password },
@@ -32,7 +32,7 @@ export default async function forgetSuccessAuth(
         { new: true }
       );
     } else {
-      await userModel.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { email: input.email.trim().toLowerCase() },
         {
           $set: { password },

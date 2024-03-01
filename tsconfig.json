@@ -1,10 +1,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ESNext",
     "lib": [
       "ESNext",
-      "esnext.asynciterable"
+      "ESNext.AsyncIterable"
     ],
     "typeRoots": [
       "node_modules/@types"
@@ -13,22 +13,25 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "NodeNext",
     "module": "NodeNext",
     "pretty": true,
     "sourceMap": true,
     "declaration": true,
-    "outDir": "dist",
     "allowJs": true,
     "noEmit": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    // "baseUrl": ".",
+    // "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts", "src/template/forget.tsx",
-  ],
+  // "include": ["src/**/*"],
   "exclude": [
     "node_modules",
+    "campus-social-mui",
+    "dist"
   ]
 }
