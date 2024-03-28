@@ -1,4 +1,4 @@
-import { serverConfig } from "../config/server_config";
+import { server_config } from "../config/server_config";
 
 export function welcomeMail({ name }: { name: string }) {
   return `
@@ -647,7 +647,7 @@ export function welcomeMail({ name }: { name: string }) {
                                         color: #333333;
                                       "
                                     >
-                                      Welcome to ${serverConfig.appName}
+                                      Welcome to ${server_config.appName}
                                     </h2>
                                   </td>
                                 </tr>

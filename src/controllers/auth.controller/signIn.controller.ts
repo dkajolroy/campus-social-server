@@ -19,7 +19,7 @@ export default async function signInAuth(
     // find and validate user
     const user = await User.findOne({
       email: input.email.trim().toLowerCase(),
-    });
+    }).select("-friends");
     if (!user) return res.status(400).send({ message: "User not found !" });
     if (!(await bcrypt.compare(input.password, user.password)))
       return res.status(400).send({ message: "Password is incorrect !" });

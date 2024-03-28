@@ -1,4 +1,4 @@
-export const serverConfig = {
+export const server_config = {
   appName: "Campus", // use like email template
   authCookieName: "CAMPUS_ACCESS",
   clientCookieName: "CAMPUS_CLIENT", // access from frontend to protect

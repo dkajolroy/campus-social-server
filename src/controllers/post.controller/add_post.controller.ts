@@ -1,13 +1,12 @@
-import { serverConfig } from "@src/config/server_config";
+import { server_config } from "@src/config/server_config";
 import { Post } from "@src/models/post_model";
 import { decodeToken } from "@src/utils/generate";
 import { UploadApiResponse } from "cloudinary";
 import { NextFunction, Request, Response } from "express";
 
 interface UploadRes {
-  images?: UploadApiResponse[];
-  videos?: UploadApiResponse[];
-  text?: string;
+  files?: UploadApiResponse[];
+  caption?: string;
   author: string;
   privacy: "ONLY_ME" | "FRIENDS" | "PUBLIC";
   type: "PROFILE" | "COVER" | "NORMAL";
@@ -19,24 +18,17 @@ export default async function addPost(
   next: NextFunction
 ) {
   try {
-    const { user } = decodeToken(req.cookies[serverConfig.authCookieName]); // return user:id
-    const { videos, images, text, privacy, type }: UploadRes = req.body;
-    if (!user || (!images.length && !videos.length && !text)) {
+    const { user } = decodeToken(req.cookies[server_config.authCookieName]); // return user:id
+    const { files, caption, privacy, type }: UploadRes = req.body;
+    if (!user || (!files.length && !caption)) {
       res.status(400).send({ message: "Invalid post data request ! " });
     }
-    const videoList = videos.map((x) => {
-      return { secure_url: x.secure_url, public_id: x.public_id };
-    });
-    const imageList = images.map((x) => {
-      return { secure_url: x.secure_url, public_id: x.public_id };
-    });
     const post = await Post.create({
-      text,
+      caption,
       author: user,
       privacy,
       type,
-      images: imageList,
-      videos: videoList,
+      media: files,
     });
 
     res.status(200).send({ post, message: "Post created successfully !" });

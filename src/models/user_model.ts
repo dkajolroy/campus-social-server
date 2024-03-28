@@ -21,11 +21,19 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
     avatar: {
-      public_id: { type: String, required: true },
+      public_id: { type: String },
       secure_url: {
         type: "String",
         default:
-          "https://res.cloudinary.com/kajolroy/image/upload/v1707939639/dummy/default-avatar-profile-icon-vector_rzhkkm.jpg",
+          "https://res.cloudinary.com/kajolroy/image/upload/v1711345477/campus/default/149071_zwemjr_io5l9y.png",
+      },
+    },
+    cover: {
+      public_id: { type: String },
+      secure_url: {
+        type: "String",
+        default:
+          "https://res.cloudinary.com/kajolroy/image/upload/v1711345494/campus/default/819219-blank-wallpaper-top-free-blank-background_jba2dg_yj0lmf.jpg",
       },
     },
     email: {
@@ -55,6 +63,24 @@ const userSchema = new Schema<IUser>(
       default: "Single",
       enum: ["Single", "Married", "In a Relationship"],
     },
+    friends: [
+      {
+        date: { type: Date, default: Date.now() },
+        user: { type: Schema.ObjectId, ref: "Users" },
+      },
+    ],
+    request: [
+      {
+        date: { type: Date, default: Date.now() },
+        user: { type: Schema.ObjectId, ref: "Users" },
+      },
+    ],
+    requestTo: [
+      {
+        date: { type: Date, default: Date.now() },
+        user: { type: Schema.ObjectId, ref: "Users" },
+      },
+    ],
     city: { type: "String" },
     country: { type: "String" },
     social: {
@@ -76,6 +102,7 @@ interface IUser extends DocumentResult<IUser> {
   firstName: string;
   lastName?: string;
   avatar: UploadContent;
+  cover: UploadContent;
   username: string;
   email: string;
   phone?: string;
@@ -88,6 +115,18 @@ interface IUser extends DocumentResult<IUser> {
   relationShip: "Single" | "Married" | "In a Relationship";
   city: string;
   country: string;
+  friends: {
+    date: Date;
+    user: Object;
+  }[];
+  request: {
+    date: Date;
+    user: Object;
+  }[];
+  requestTo: {
+    date: Date;
+    user: Object;
+  }[];
   social: {
     facebook: string | null;
     github: string | null;

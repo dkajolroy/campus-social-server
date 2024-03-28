@@ -1,11 +1,11 @@
 import Jwt from "jsonwebtoken";
 import slugify from "slugify";
-import { serverConfig } from "../config/server_config";
+import { server_config } from "../config/server_config";
 
 // generate token
 export function generateToken(user: any, expiresIn?: string) {
   return Jwt.sign({ user }, process.env.SECRETE_KEY, {
-    expiresIn: expiresIn || serverConfig.cookieExpire,
+    expiresIn: expiresIn || server_config.cookieExpire,
   });
 } // generate token
 export function decodeToken(token: string, expiresIn?: string) {

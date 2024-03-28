@@ -2,7 +2,7 @@ import { User } from "@src/models/user_model";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import validator from "validator";
-import { serverConfig } from "../../config/server_config";
+import { server_config } from "../../config/server_config";
 import { sendMail } from "../../email/config_mail";
 import { welcomeMail } from "../../email/welcome";
 import { InputSignUp } from "../../types/input";
@@ -49,7 +49,7 @@ export default async function signupAuth(
     sendMail({
       to: input.email.trim().toLowerCase(),
       html,
-      subject: "Welcome to " + serverConfig.appName,
+      subject: "Welcome to " + server_config.appName,
       text: "New account welcome message for you !",
     });
 

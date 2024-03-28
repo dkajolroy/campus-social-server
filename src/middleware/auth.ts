@@ -1,11 +1,11 @@
+import { server_config } from "@src/config/server_config";
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
-import { serverConfig } from "../config/server_config";
 import { sendClientCookie } from "../utils/send_cookie";
 
 export function authUser(req: Request, res: Response, next: NextFunction) {
   // Check cookie
-  const token = req.cookies[serverConfig.authCookieName]; // user token
+  const token = req.cookies[server_config.authCookieName]; // user token
   if (token) {
     try {
       const decrypt = Jwt.verify(token, process.env.SECRETE_KEY) as {

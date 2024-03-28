@@ -1,17 +1,17 @@
 import { Response } from "express";
-import { serverConfig } from "../config/server_config";
+import { server_config } from "../config/server_config";
 
 export function sendServerCookie(res: Response, { token }: { token: string }) {
-  res.cookie(serverConfig.authCookieName, token, {
+  res.cookie(server_config.authCookieName, token, {
     httpOnly: true,
     secure: true,
-    maxAge: serverConfig.cookieExpire,
+    maxAge: server_config.cookieExpire,
   });
 }
 
 export function sendClientCookie(res: Response, { value }: { value: any }) {
-  res.cookie(serverConfig.clientCookieName, value, {
+  res.cookie(server_config.clientCookieName, value, {
     secure: true,
-    maxAge: serverConfig.cookieExpire,
+    maxAge: server_config.cookieExpire,
   });
 }

@@ -1,5 +1,5 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
-import { serverConfig } from "../config/server_config";
+import { server_config } from "../config/server_config";
 
 export function sendMail(mailOption: SendMailOptions) {
   const transporter = nodemailer.createTransport({
@@ -12,7 +12,7 @@ export function sendMail(mailOption: SendMailOptions) {
   transporter.sendMail(
     {
       from: {
-        name: serverConfig.appName,
+        name: server_config.appName,
         address: process.env.NODEMAILER_EMAIL,
       },
       ...mailOption,

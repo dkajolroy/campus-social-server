@@ -4,13 +4,12 @@ import { Schema, model } from "mongoose";
 interface IPost {
   author: Object;
   type: "PROFILE" | "COVER" | "NORMAL";
-  text?: string;
+  caption?: string;
   tags: Object[];
   reacts?: Object[];
   comments?: Object[];
   privacy: "ONLY_ME" | "FRIENDS" | "PUBLIC";
-  images: UploadContent[];
-  videos: UploadContent[];
+  media: UploadContent[];
 }
 const postSchema = new Schema<IPost>(
   {
@@ -20,7 +19,7 @@ const postSchema = new Schema<IPost>(
       enum: ["PROFILE", "COVER", "NORMAL"],
       default: "NORMAL",
     },
-    text: { type: String, maxlength: 5000 },
+    caption: { type: String, maxlength: 5000 },
     tags: [{ type: Schema.ObjectId, ref: "Users" }],
     reacts: [
       {
@@ -39,16 +38,11 @@ const postSchema = new Schema<IPost>(
       enum: ["ONLY_ME", "FRIENDS", "PUBLIC"],
       default: "PUBLIC",
     },
-    images: [
+    media: [
       {
         public_id: { type: String, required: true },
         secure_url: { type: String, required: true },
-      },
-    ],
-    videos: [
-      {
-        public_id: { type: String, required: true },
-        secure_url: { type: String, required: true },
+        resource_type: { type: String, required: true },
       },
     ],
   },

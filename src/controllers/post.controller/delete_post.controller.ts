@@ -7,6 +7,7 @@ export default function feedPost(
   next: NextFunction
 ) {
   try {
+    // delete all images
     // delete reacts
     // delete comments
     // delete post

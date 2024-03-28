@@ -13,7 +13,6 @@ interface IReact {
   author: Object;
   type: RType;
   post: Object;
-  date: Date;
 }
 
 const reactSchema = new Schema<IReact>(
@@ -33,7 +32,6 @@ const reactSchema = new Schema<IReact>(
       enum: RType,
       default: RType.LIKE,
     },
-    date: { type: Date, default: Date.now() },
   },
   { timestamps: true, versionKey: false }
 );
